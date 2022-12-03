@@ -17,10 +17,8 @@ class DefaultController extends AbstractController
             return $this->redirect('login');
         }
 
-        if (in_array('ROLE_MODERATOR', $user->getRoles())) {
-            return $this->redirect('news_search');
-        }
+        $this->denyAccessUnlessGranted('ROLE_MODERATOR');
 
-        return $this->redirect('login');
+        return $this->redirectToRoute('app_news_search');
     }
 }
