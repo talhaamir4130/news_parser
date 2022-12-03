@@ -18,14 +18,6 @@ services:
       # Ensure that host.docker.internal is correctly defined on Linux
       - host.docker.internal:host-gateway
 
-  caddy:
-    volumes:
-      - ./public:/srv/app/public:ro
-      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
-
-###> symfony/mercure-bundle ###
-###< symfony/mercure-bundle ###
-
 ###> doctrine/doctrine-bundle ###
   database:
     ports:
