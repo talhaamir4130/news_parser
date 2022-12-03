@@ -1,0 +1,32 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Title</td>
+            <td>Description</td>
+            <td>Created/Updated At</td>
+            <td class="text-center">Picture</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in news %}
+            <tr>
+                <td>
+                    {{ item.title }}
+                </td>
+                <td>
+                    {{ item.description }}
+                </td>
+                <td>
+                    {{ item.createdAt|date('Y-m-d H:i:s') }}
+                </td>
+                <td class="text-center">
+                    <img src="{{ item.picture }}" width="50%" height="20%"></img>
+                </td>
+                <td class="text-center">
+                    <a href="#">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

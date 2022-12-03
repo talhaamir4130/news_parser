@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\News;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<News>
@@ -39,28 +40,16 @@ class NewsRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return News[] Returns an array of News objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('n')
-//            ->andWhere('n.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('n.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function getNews(int $page, int $itemsPerPage)
+    {
+        $query = $this->createQueryBuilder('n')
+            ->orderBy('n.createdAt', 'DESC')
+            ->setFirstResult(($page - 1) * $itemsPerPage)
+            ->setMaxResults($itemsPerPage)
+        ;
 
-//    public function findOneBySomeField($value): ?News
-//    {
-//        return $this->createQueryBuilder('n')
-//            ->andWhere('n.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $paginator = new Paginator($query);
+
+        return $paginator;
+    }
 }
