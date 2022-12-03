@@ -1,7 +1,9 @@
 # news_parser
 
-`docker-compose build --pull --no-cache`
+Install Symfony CLI
 
 `docker-compose up -d`
 
-`https://localhost`
+`symfony server:start`
+
+`https://127.0.0.1:8000`
