@@ -6,5 +6,16 @@
     <div class="container">
         <h2>News Parsed</h2>
         {% include "news_search/table.html.twig" %}
+        <div class="row">
+            <div class="col-6">
+                <a class="text-left" href="{{ path('app_news_search', {page: (page - 1)}) }}">Previous page</a>
+            </div>
+            <div class="col-6">
+                <a class="text-right" href="{{ path('app_news_search', {page: (page + 1)}) }}">Next page</a>
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
     </div>
 {% endblock %}

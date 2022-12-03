@@ -17,6 +17,7 @@ class NewsSearchController extends AbstractController
 
         return $this->render('news_search/index.html.twig', [
             'news' => $manager->getRepository(News::class)->getNews($page, 10),
+            'page' => $page,
         ]);
     }
 
