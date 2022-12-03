@@ -19,4 +19,21 @@ class NewsSearchController extends AbstractController
             'news' => $manager->getRepository(News::class)->getNews($page, 10),
         ]);
     }
+
+    #[Route('/news/{id}/delete', name: 'app_news_delete')]
+    public function delete(EntityManagerInterface $manager, int $id): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $news = $manager->getRepository(News::class)->findOneBy(['id' => $id]);
+
+        if (!$news) {
+            return $this->redirectToRoute('app_news_search');
+        }
+
+        $manager->remove($news);
+        $manager->flush();
+
+        return $this->redirectToRoute('app_news_search');
+    }
 }

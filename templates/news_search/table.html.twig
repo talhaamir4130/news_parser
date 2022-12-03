@@ -3,9 +3,9 @@
         <tr>
             <td>Title</td>
             <td>Description</td>
-            <td>Created/Updated At</td>
+            <td>Date</td>
             <td class="text-center">Picture</td>
-            <td></td>
+            {% if is_granted('ROLE_ADMIN') %}<td></td>{% endif %}
         </tr>
     </thead>
     <tbody>
@@ -23,9 +23,11 @@
                 <td class="text-center">
                     <img src="{{ item.picture }}" width="50%" height="20%"></img>
                 </td>
-                <td class="text-center">
-                    <a href="#">Delete</a>
-                </td>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <td class="text-center">
+                        <a href="{{ path('app_news_delete', {id: item.id}) }}">Delete</a>
+                    </td>
+                {% endif %}
             </tr>
         {% endfor %}
     </tbody>
