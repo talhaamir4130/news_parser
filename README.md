@@ -36,7 +36,7 @@ Authorized users can be with one of two roles: admin or moderator (the administr
 there must be pagination at the end of the list of articles (10 per page)
 
 
-Stack:
+### Stack:
 
 - Symfony 5.4
 - Php 7.4

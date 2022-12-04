@@ -8,10 +8,16 @@ framework:
 
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
-            async: '%env(RABBITMQ_URL)%'
-            # failed: 'doctrine://default?queue_name=failed'
-            # sync: 'sync://'
+            async:
+                dsn: '%env(RABBITMQ_URL)%'
+                options:
+                    use_notify: true
+                    check_delayed_interval: 60000
+                retry_strategy:
+                    max_retries: 3
+                    multiplier: 2
+            failed: 'doctrine://default?queue_name=failed'
 
         routing:
             # Route your messages to the transports
-            # 'App\Message\YourMessage': async
+            'App\Message\ParseNews': async

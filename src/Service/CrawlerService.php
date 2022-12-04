@@ -17,12 +17,8 @@ class CrawlerService
         $this->entityManager = $entityManager;
     }
 
-    public function crawlAndSave(Crawler $node): void
+    public function saveNews(string $title, string $picture, string $description): void
     {
-        $title = $node->filter('a > h2')->text();
-        $picture = $node->filter('div[class="lenta-image"]')->filter('img')->eq(1)->attr('src');
-        $description = $node->filter('p')->eq(2)->text();
-
         $dbNews = $this->getNews($title);
         if (!is_null($dbNews)) {
             $dbNews->setCreatedAt(new DateTimeImmutable());

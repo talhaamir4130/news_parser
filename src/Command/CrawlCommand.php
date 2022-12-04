@@ -3,22 +3,23 @@
 namespace App\Command;
 
 use Goutte\Client;
-use App\Service\CrawlerService;
+use App\Message\ParseNews;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CrawlCommand extends Command
 {
-    /** @var CrawlerService */
-    private $crawlerService;
+    /** @var MessageBusInterface */
+    private $bus;
 
     protected static $defaultName = 'app:news:crawl';
 
-    public function __construct(CrawlerService $crawlerService)
+    public function __construct(MessageBusInterface $bus)
     {
-        $this->crawlerService = $crawlerService;
+        $this->bus = $bus;
 
         parent::__construct();
     }
@@ -32,10 +33,14 @@ class CrawlCommand extends Command
         $client = new Client();
         $crawler = $client->request('GET', 'https://highload.today/');
 
-        $crawlerService = $this->crawlerService;
+        $bus = $this->bus;
         try {
-            $crawler->filter('div[class="lenta-item"]')->each(function (Crawler $node) use ($crawlerService) {
-                $crawlerService->crawlAndSave($node);
+            $crawler->filter('div[class="lenta-item"]')->each(function (Crawler $node) use ($bus) {
+                $title = $node->filter('a > h2')->text();
+                $picture = $node->filter('div[class="lenta-image"]')->filter('img')->eq(1)->attr('src');
+                $description = $node->filter('p')->eq(2)->text();
+
+                $bus->dispatch(new ParseNews($title, $picture, $description));
             });
         } catch (\Exception $e) {
             // leave as is
