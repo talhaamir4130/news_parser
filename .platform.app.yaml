@@ -6,3 +6,10 @@ web:
         if [ "$PLATFORM_BRANCH" = "master" ]; then
           croncape symfony console app:news:crawl
         fi
+
+runtime:
+  extensions:
+    - amqp
+
+relationships:
+  rabbitmq: "queue:rabbitmq"
