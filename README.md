@@ -1,12 +1,16 @@
 # news_parser
 
-Install Symfony CLI
+Install Symfony CLI with php extensions
 
 `docker-compose up -d`
 
 `symfony server:start`
 
 `https://127.0.0.1:8000`
+
+Parse: `symfony console app:news:crawl`
+
+Consume Message: `symfony console messenger:consume`
 
 ## Description
 
